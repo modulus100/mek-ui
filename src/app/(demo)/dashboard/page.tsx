@@ -1,6 +1,5 @@
+'use client';
 import Link from "next/link";
-
-import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
   Breadcrumb,
@@ -10,8 +9,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
+import { Button } from '@/components/ui/button';
+import { useSession } from 'next-auth/react';
 
 export default function DashboardPage() {
+  const { data: session, status } = useSession();
+
   return (
     <ContentLayout title="Dashboard">
       <Breadcrumb>
@@ -27,7 +30,12 @@ export default function DashboardPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <PlaceholderContent />
+      {/*<PlaceholderContent />*/}
+      {/*<Button onClick={() => {*/}
+      {/*  // console.log(session);*/}
+      {/*  console.log('test')*/}
+      {/*}}/>*/}
+      <Button/>
     </ContentLayout>
   );
 }
