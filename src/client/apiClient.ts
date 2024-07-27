@@ -1,9 +1,8 @@
 // apiClient.ts
 
-import { paths } from './types';
+import type { paths } from './schema';
 import createClient from "openapi-fetch";
 
 
-const client = createClient<paths>({ baseUrl: "http://localhost:8080/" });
-
-export default client;
+const apiClient = createClient<paths>({ baseUrl: "http://localhost:8080/api/v1" });
+export default apiClient;

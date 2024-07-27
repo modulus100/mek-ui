@@ -1,50 +1,54 @@
-import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
+import type { Metadata } from 'next';
+import { GeistSans } from 'geist/font/sans';
 
-import "./globals.css";
+import './globals.css';
 
-import { ThemeProvider } from "@/providers/theme-provider";
+import React from 'react';
+import { auth } from '../../auth';
+import Providers from '@/providers/providers';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.APP_URL
       ? `${process.env.APP_URL}`
       : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : `http://localhost:${process.env.PORT || 3000}`
+        ? `https://${process.env.VERCEL_URL}`
+        : `http://localhost:${process.env.PORT || 3000}`
   ),
-  title: "shadcn/ui sidebar",
+  title: 'shadcn/ui sidebar',
   description:
-    "A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness.",
+    'A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness.',
   alternates: {
-    canonical: "/"
+    canonical: '/'
   },
   openGraph: {
-    url: "/",
-    title: "shadcn/ui sidebar",
+    url: '/',
+    title: 'shadcn/ui sidebar',
     description:
-      "A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness.",
-    type: "website"
+      'A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness.',
+    type: 'website'
   },
   twitter: {
-    card: "summary_large_image",
-    title: "shadcn/ui sidebar",
+    card: 'summary_large_image',
+    title: 'shadcn/ui sidebar',
     description:
-      "A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness."
+      'A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness.'
   }
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={GeistSans.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Providers session={session}  >
           {children}
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

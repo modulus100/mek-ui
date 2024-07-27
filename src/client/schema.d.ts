@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/register": {
+    "/auth/register": {
         parameters: {
             query?: never;
             header?: never;
@@ -13,6 +13,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Register a new user */
         post: operations["registerUser"];
         delete?: never;
         options?: never;
@@ -20,7 +21,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/refresh-token": {
+    "/auth/refresh-token": {
         parameters: {
             query?: never;
             header?: never;
@@ -36,7 +37,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/logout": {
+    "/auth/logout": {
         parameters: {
             query?: never;
             header?: never;
@@ -52,7 +53,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/login": {
+    "/auth/login": {
         parameters: {
             query?: never;
             header?: never;
@@ -162,8 +163,26 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Created */
+            /** @description User registered successfully */
             201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Unit"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Unit"];
+                };
+            };
+            /** @description Email already exists */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -186,7 +205,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description User logged in successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -210,12 +229,14 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Token invalidated successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["Unit"];
+                };
             };
         };
     };
@@ -232,7 +253,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description User logged out successfully */
             200: {
                 headers: {
                     [name: string]: unknown;

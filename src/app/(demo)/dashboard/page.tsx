@@ -1,7 +1,6 @@
-import Link from "next/link";
-
-import PlaceholderContent from "@/components/demo/placeholder-content";
-import { ContentLayout } from "@/components/admin-panel/content-layout";
+'use client';
+import Link from 'next/link';
+import { ContentLayout } from '@/components/admin-panel/content-layout';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,7 +8,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+} from '@/components/ui/breadcrumb';
 
 export default function DashboardPage() {
   return (
@@ -27,7 +26,7 @@ export default function DashboardPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <PlaceholderContent />
+      {/*<Button/>*/}
     </ContentLayout>
   );
 }
