@@ -6,17 +6,17 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "http://localhost:8080/api/v1",
       "description": "Generated server url"
     }
   ],
   "paths": {
-    "/api/v1/auth/register": {
+    "/register": {
       "post": {
         "tags": [
           "auth-rest-api"
         ],
-        "operationId": "registerAdmin",
+        "operationId": "registerUser",
         "requestBody": {
           "content": {
             "application/json": {
@@ -29,12 +29,19 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/v1/auth/refresh-token": {
+    "/refresh-token": {
       "post": {
         "tags": [
           "auth-rest-api"
@@ -64,7 +71,7 @@
         }
       }
     },
-    "/api/v1/auth/logout": {
+    "/logout": {
       "post": {
         "tags": [
           "auth-rest-api"
@@ -87,7 +94,7 @@
         }
       }
     },
-    "/api/v1/auth/login": {
+    "/login": {
       "post": {
         "tags": [
           "auth-rest-api"
@@ -129,17 +136,12 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/IamUserEntity"
+                  "$ref": "#/components/schemas/Player"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
+        }
       }
     }
   },
@@ -170,6 +172,9 @@
           }
         }
       },
+      "Unit": {
+        "type": "object"
+      },
       "TokenRefreshRequest": {
         "required": [
           "refreshToken"
@@ -182,6 +187,11 @@
         }
       },
       "LoginResponse": {
+        "required": [
+          "roles",
+          "token",
+          "user"
+        ],
         "type": "object",
         "properties": {
           "token": {
@@ -199,6 +209,10 @@
         }
       },
       "Permission": {
+        "required": [
+          "id",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -211,6 +225,11 @@
         }
       },
       "Role": {
+        "required": [
+          "id",
+          "name",
+          "permissions"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -229,6 +248,11 @@
         }
       },
       "Token": {
+        "required": [
+          "accessToken",
+          "accessTokenExpiresAt",
+          "refreshToken"
+        ],
         "type": "object",
         "properties": {
           "accessToken": {
@@ -244,6 +268,12 @@
         }
       },
       "User": {
+        "required": [
+          "email",
+          "firstName",
+          "id",
+          "lastName"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -291,38 +321,21 @@
           }
         }
       },
-      "IamUserEntity": {
+      "Player": {
+        "required": [
+          "id",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "email": {
+          "name": {
             "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "ACTIVE",
-              "WAITING_APPROVAL",
-              "BLOCKED"
-            ]
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "Authorization": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }
