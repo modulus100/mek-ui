@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:ts": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -42,10 +43,12 @@
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
+    "openapi-fetch": "^0.10.2",
+    "openapi-typescript": "^7.1.0",
     "postcss": "^8",
     "prettier": "3.3.3",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.5.4"
   }
 }
