@@ -63,36 +63,36 @@ export function getMenuList(pathname: string): Group[] {
         //   ]
         // },
         {
-          href: "/tags",
+          href: "/projects",
           label: "Projects",
-          active: pathname.includes("/tags"),
+          active: pathname.includes("/projects"),
           icon: Building2,
           submenus: []
         },        {
-          href: "/tags",
+          href: "/employees",
           label: "Employees",
-          active: pathname.includes("/tags"),
+          active: pathname.includes("/employees"),
           icon: Users,
           submenus: []
         },
         {
-          href: "/categories",
+          href: "/tools",
           label: "Tools",
-          active: pathname.includes("/categories"),
+          active: pathname.includes("/tools"),
           icon: Drill,
           submenus: []
         },
         {
-          href: "/tags",
+          href: "/transport",
           label: "Transport",
-          active: pathname.includes("/tags"),
+          active: pathname.includes("/transport"),
           icon: Truck,
           submenus: []
         },
         {
-          href: "/tags",
+          href: "/bills",
           label: "Bills",
-          active: pathname.includes("/tags"),
+          active: pathname.includes("/bills"),
           icon: ReceiptText,
           submenus: []
         }

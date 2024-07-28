@@ -6,6 +6,7 @@ import './globals.css';
 import React from 'react';
 import { auth } from '../../auth';
 import Providers from '@/providers/providers';
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -46,9 +47,11 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={GeistSans.className}>
-        <Providers session={session}  >
-          {children}
-        </Providers>
+        <NextTopLoader
+          color="#0FA9C4"
+          showSpinner={false}
+        />
+        <Providers session={session}>{children}</Providers>
       </body>
     </html>
   );
