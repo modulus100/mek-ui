@@ -9,6 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
+import { TableDemo } from '@/components/ui/table/table-demo';
 
 export default function DashboardPage() {
   return (
@@ -26,7 +27,7 @@ export default function DashboardPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      {/*<Button/>*/}
+      <TableDemo/>
     </ContentLayout>
   );
 }

@@ -13,12 +13,15 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
+import { LoadingButton } from '@/components/ui/loading-button';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email address' }),
-  password: z.string().min(4, { message: 'Password must be at least 6 characters' })
+  password: z
+    .string()
+    .min(4, { message: 'Password must be at least 6 characters' })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -27,6 +30,7 @@ export default function UserLoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
   const [loading, setLoading] = useState(false);
+
   const defaultValues = {
     email: 'aleksandr.ts@gmail.com',
     password: 'pass'
@@ -36,7 +40,12 @@ export default function UserLoginForm() {
     defaultValues
   });
 
+  useHotkeys('enter', () => {
+    form.handleSubmit(onSubmit)();
+  });
+
   const onSubmit = async (data: UserFormValue) => {
+    setLoading(true);
     void signIn('credentials', {
       email: data.email,
       password: data.password,
@@ -88,9 +97,13 @@ export default function UserLoginForm() {
             )}
           />
 
-          <Button disabled={loading} className="ml-auto w-full" type="submit">
+          <LoadingButton
+            className="ml-auto w-full"
+            type="submit"
+            loading={loading}
+          >
             Continue With Email
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
     </>
