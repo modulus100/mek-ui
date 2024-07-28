@@ -5,8 +5,8 @@ import {
   Bookmark,
   SquarePen,
   LayoutGrid,
-  LucideIcon
-} from "lucide-react";
+  LucideIcon, Drill, Truck, Building2, ReceiptText
+} from 'lucide-react';
 
 type Submenu = {
   href: string;
@@ -42,38 +42,58 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Contents",
+      groupLabel: "Company",
       menus: [
+        // {
+        //   href: "",
+        //   label: "Posts",
+        //   active: pathname.includes("/posts"),
+        //   icon: SquarePen,
+        //   submenus: [
+        //     {
+        //       href: "/posts",
+        //       label: "All Posts",
+        //       active: pathname === "/posts"
+        //     },
+        //     {
+        //       href: "/posts/new",
+        //       label: "New Post",
+        //       active: pathname === "/posts/new"
+        //     }
+        //   ]
+        // },
         {
-          href: "",
-          label: "Posts",
-          active: pathname.includes("/posts"),
-          icon: SquarePen,
-          submenus: [
-            {
-              href: "/posts",
-              label: "All Posts",
-              active: pathname === "/posts"
-            },
-            {
-              href: "/posts/new",
-              label: "New Post",
-              active: pathname === "/posts/new"
-            }
-          ]
+          href: "/tags",
+          label: "Projects",
+          active: pathname.includes("/tags"),
+          icon: Building2,
+          submenus: []
+        },        {
+          href: "/tags",
+          label: "Employees",
+          active: pathname.includes("/tags"),
+          icon: Users,
+          submenus: []
         },
         {
           href: "/categories",
-          label: "Categories",
+          label: "Tools",
           active: pathname.includes("/categories"),
-          icon: Bookmark,
+          icon: Drill,
           submenus: []
         },
         {
           href: "/tags",
-          label: "Tags",
+          label: "Transport",
           active: pathname.includes("/tags"),
-          icon: Tag,
+          icon: Truck,
+          submenus: []
+        },
+        {
+          href: "/tags",
+          label: "Bills",
+          active: pathname.includes("/tags"),
+          icon: ReceiptText,
           submenus: []
         }
       ]

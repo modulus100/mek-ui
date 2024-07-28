@@ -1,7 +1,7 @@
 import { ContentLayout } from '@/components/admin-panel/content-layout';
 import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
-import { SidebarNav } from '@/app/(demo)/account/sidebar-nav';
+import { SidebarNav } from '@/app/(demo)/account/components/sidebar-nav';
 
 interface AccountLayoutProps {
   children: React.ReactNode
