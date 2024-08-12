@@ -1,27 +1,39 @@
 import { ContentLayout } from '@/components/admin-panel/content-layout';
-import { columns } from '@/app/(demo)/transport/components/columns';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { z } from 'zod';
-import { taskSchema } from '@/app/(demo)/tools/data/schema';
-import { DataTableToolbar } from '@/app/(demo)/transport/components/data-table-toolbar';
-import { DataTable } from '@/components/table/data-table';
+import * as React from 'react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from '@/components/ui/breadcrumb';
+import Link from 'next/link';
+import PlaceholderContent from '@/components/demo/placeholder-content';
 
-async function getTasks() {
-  const data = await fs.readFile(
-    path.join(process.cwd(), '/src/app/(demo)/transport/data/tasks.json')
-  );
-
-  const tasks = JSON.parse(data.toString());
-  return z.array(taskSchema).parse(tasks);
-}
-
-export default async function TransportPage() {
-  const tasks = await getTasks();
-
+export default function TransportPage() {
   return (
     <ContentLayout title="Transport">
-      <DataTable data={tasks} columns={columns} toolbar={DataTableToolbar} />
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Transport</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <PlaceholderContent />
     </ContentLayout>
   );
 }

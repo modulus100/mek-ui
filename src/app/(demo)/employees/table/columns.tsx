@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Employee } from '@/app/(demo)/employees/data/schema';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
+import { Badge } from '@/components/ui/badge';
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -20,7 +21,6 @@ export const columns: ColumnDef<Employee>[] = [
         </div>
       );
     },
-    enableSorting: false,
   },
   {
     accessorKey: 'email',
@@ -36,6 +36,50 @@ export const columns: ColumnDef<Employee>[] = [
         </div>
       );
     },
-    enableSorting: false,
+  },
+  {
+    accessorKey: 'jobTitle',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Job Title" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue('jobTitle')}
+          </span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'phoneNumber',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phone Number" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue('phoneNumber')}
+          </span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'isActive',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Is Active" />
+    ),
+    cell: ({ row, cell }) => {
+      const status =  cell.getValue() ? "secondary" : "destructive"
+
+      return (
+        <div className="flex space-x-2">
+          {<Badge variant={status}>{cell.getValue() ? 'Yes' : 'No'}</Badge>}
+        </div>
+      );
+    }
   },
 ];

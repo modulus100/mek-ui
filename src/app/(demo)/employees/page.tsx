@@ -1,11 +1,10 @@
+import { z } from 'zod';
 import { ContentLayout } from '@/components/admin-panel/content-layout';
+import { Metadata } from 'next';
+import * as React from 'react';
+import { EmployeesTable } from '@/app/(demo)/employees/table/employees-table';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { Metadata } from 'next';
-import { z } from 'zod';
-import { DataTable } from '@/components/table/data-table';
-import { columns } from '@/app/(demo)/employees/table/columns';
-import { DataTableToolbar } from '@/app/(demo)/employees/table/data-table-toolbar';
 import { employeeSchema } from '@/app/(demo)/employees/data/schema';
 
 export const metadata: Metadata = {
@@ -28,7 +27,7 @@ export default async function EmployeesPage() {
 
   return (
     <ContentLayout title="Tools">
-      <DataTable data={employees} columns={columns} toolbar={DataTableToolbar} />
+      <EmployeesTable employees={employees} />
     </ContentLayout>
   );
 }
