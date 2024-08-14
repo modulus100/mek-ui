@@ -50,7 +50,9 @@ export function EmployeesTable({ employees }: EmployeesTableProps) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     globalFilterFn: (row, columnIds, filterValue) => {
-      return row.original.name.toLowerCase().includes(filterValue) || row.original.jobTitle.toLowerCase().includes(filterValue);
+      return row.original.name.toLowerCase().includes(filterValue) ||
+        row.original.jobTitle.toLowerCase().includes(filterValue) ||
+        row.original.phoneNumber.includes(filterValue);
     }
   });
 
