@@ -12,9 +12,13 @@ const sidebarNavItems = [
     title: 'Profile',
     href: '/account',
   },
+  // {
+  //   title: 'Account',
+  //   href: '/account/account'
+  // },
   {
-    title: 'Account',
-    href: '/account/account'
+    title: 'Password',
+    href: '/account/password'
   },
 ];
 

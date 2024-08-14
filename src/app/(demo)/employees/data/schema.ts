@@ -7,7 +7,7 @@ export const employeeSchema = z.object({
   email: z.string().email(),
   name: z.string(),
   status: z.enum(['active', 'inactive']),
-  registrationDate: z.string(),
+  registrationDate: z.string().transform((str) => new Date(str)),
   birthDate: z.string(),
   isActive: z.boolean(),
   jobTitle: z.string(),

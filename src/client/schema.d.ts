@@ -69,14 +69,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/user/test": {
+    "/user/": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["getPlayer"];
+        get: operations["getAllUsers"];
         put?: never;
         post?: never;
         delete?: never;
@@ -101,8 +101,15 @@ export interface components {
         };
         LoginResponse: {
             token: components["schemas"]["Token"];
-            user: components["schemas"]["User"];
+            user: components["schemas"]["LoginUser"];
             roles: components["schemas"]["Role"][];
+        };
+        LoginUser: {
+            /** Format: uuid */
+            id: string;
+            firstName: string;
+            lastName: string;
+            email: string;
         };
         Permission: {
             /** Format: uuid */
@@ -121,13 +128,6 @@ export interface components {
             accessTokenExpiresAt: number;
             refreshToken: string;
         };
-        User: {
-            /** Format: uuid */
-            id: string;
-            firstName: string;
-            lastName: string;
-            email: string;
-        };
         TokenInvalidateRequest: {
             accessToken: string;
             refreshToken: string;
@@ -136,10 +136,24 @@ export interface components {
             email: string;
             password: string;
         };
-        Player: {
+        GetAllUsersResponse: {
+            users: components["schemas"]["User"][];
+        };
+        User: {
             /** Format: uuid */
             id: string;
+            email: string;
             name: string;
+            /** @enum {string} */
+            status: "ACTIVE" | "INACTIVE" | "BLOCKED";
+            /** Format: date-time */
+            registrationDate: string;
+            /** Format: date-time */
+            birthDate: string;
+            jobTitle?: string;
+            phoneNumber?: string;
+            personalIdCode?: string;
+            active?: boolean;
         };
     };
     responses: never;
@@ -264,7 +278,7 @@ export interface operations {
             };
         };
     };
-    getPlayer: {
+    getAllUsers: {
         parameters: {
             query?: never;
             header?: never;
@@ -279,7 +293,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Player"];
+                    "*/*": components["schemas"]["GetAllUsersResponse"];
                 };
             };
         };

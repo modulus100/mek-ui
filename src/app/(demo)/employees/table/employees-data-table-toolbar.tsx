@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { DataTableViewOptions } from '@/components/table/data-table-view-options';
 import React from 'react';
 import { Table } from '@tanstack/react-table';
+import { CreateTaskDialog } from '@/components/dialog/create-task-dialog';
 
 interface EmployeesDataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -60,6 +61,7 @@ export function EmployeesDataTableToolbar<TData>({
           </Button>
         )}
       </div>
+      <CreateTaskDialog/>
       <DataTableViewOptions table={table} />
     </div>
   );

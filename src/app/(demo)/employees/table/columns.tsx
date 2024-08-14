@@ -5,8 +5,11 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Employee } from '@/app/(demo)/employees/data/schema';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
+import { components } from '@/client/schema';
 
-export const columns: ColumnDef<Employee>[] = [
+type User = components['schemas']['User'];
+
+export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
@@ -68,7 +71,7 @@ export const columns: ColumnDef<Employee>[] = [
     },
   },
   {
-    accessorKey: 'isActive',
+    accessorKey: 'active',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Is Active" />
     ),
@@ -82,4 +85,25 @@ export const columns: ColumnDef<Employee>[] = [
       );
     }
   },
+  {
+    accessorKey: 'registrationDate',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Registration Date" />
+    ),
+    cell: ({ row }) => {
+      const formattedDate = new Intl.DateTimeFormat('et', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).format(new Date(row.getValue('registrationDate')))
+
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {formattedDate}
+          </span>
+        </div>
+      );
+    },
+  }
 ];

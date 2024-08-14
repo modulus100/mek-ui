@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutGrid, LogOut, User } from "lucide-react";
+import { Languages, LayoutGrid, LogOut, User } from 'lucide-react';
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -73,6 +73,9 @@ export function UserNav() {
               <User className="w-4 h-4 mr-3 text-muted-foreground" />
               Account
             </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Languages />
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

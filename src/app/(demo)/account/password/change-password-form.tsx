@@ -14,51 +14,40 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils'; // Assuming you have a utility to handle classnames
-import { useSession } from 'next-auth/react';
 
-const profileFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: 'Name must be at least 2 characters.'
-    })
-    .max(30, {
-      message: 'Name must not be longer than 30 characters.'
+const passwordFormSchema = z
+  .object({
+    currentPassword: z.string().min(6, {
+      message: 'Current password must be at least 6 characters.'
     }),
-  surname: z
-    .string()
-    .min(2, {
-      message: 'Surname must be at least 2 characters.'
-    })
-    .max(30, {
-      message: 'Surname must not be longer than 30 characters.'
+    newPassword: z.string().min(6, {
+      message: 'New password must be at least 6 characters.'
     }),
-  email: z
-    .string({
-      required_error: 'Please select an email to display.'
+    repeatPassword: z.string().min(6, {
+      message: 'Repeat password must be at least 6 characters.'
     })
-    .email()
-});
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-export function ProfileForm() {
-  const { data: session } = useSession();
-
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
-    defaultValues: {
-      name: session?.user.firstName,
-      surname: session?.user.lastName,
-      email: session?.user?.email
-    },
-    mode: 'onChange'
+  })
+  .superRefine(({ newPassword, repeatPassword }, ctx) => {
+    if (newPassword !== repeatPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['repeatPassword'],
+        message: 'Passwords do not match.'
+      });
+    }
   });
 
-  function onSubmit(data: ProfileFormValues) {
+type PasswordFormValues = z.infer<typeof passwordFormSchema>;
+
+export function ChangePasswordForm() {
+  const form = useForm<PasswordFormValues>({
+    resolver: zodResolver(passwordFormSchema),
+    // mode: 'onChange'
+  });
+
+  function onSubmit(data: PasswordFormValues) {
     toast({
-      title: 'You submitted the following values:',
+      title: 'Password change request submitted:',
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
@@ -72,13 +61,18 @@ export function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="name"
+          name="currentPassword"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Current Password</FormLabel>
               <div className="relative">
                 <FormControl>
-                  <Input placeholder='' {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Enter your current password"
+                    {...field}
+                    className="w-full"
+                  />
                 </FormControl>
                 {fieldState.error && (
                   <FormMessage className="absolute -bottom-6 left-0">
@@ -91,13 +85,18 @@ export function ProfileForm() {
         />
         <FormField
           control={form.control}
-          name="surname"
+          name="newPassword"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Surname</FormLabel>
+              <FormLabel>New Password</FormLabel>
               <div className="relative">
                 <FormControl>
-                  <Input placeholder='' {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Enter your new password"
+                    {...field}
+                    className="w-full"
+                  />
                 </FormControl>
                 {fieldState.error && (
                   <FormMessage className="absolute -bottom-6 left-0">
@@ -110,13 +109,18 @@ export function ProfileForm() {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="repeatPassword"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Repeat New Password</FormLabel>
               <div className="relative">
                 <FormControl>
-                  <Input placeholder="m@example.com" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Repeat your new password"
+                    {...field}
+                    className="w-full"
+                  />
                 </FormControl>
                 {fieldState.error && (
                   <FormMessage className="absolute -bottom-6 left-0">
@@ -127,7 +131,9 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Update profile</Button>
+        <Button type="submit">
+          Update password
+        </Button>
       </form>
     </Form>
   );

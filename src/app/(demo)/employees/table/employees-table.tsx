@@ -17,6 +17,9 @@ import { EmployeesDataTableToolbar } from '@/app/(demo)/employees/table/employee
 import { DataTable } from '@/components/table/data-table';
 import { useState } from 'react';
 import { Employee } from '@/app/(demo)/employees/data/schema';
+import { useQuery } from '@tanstack/react-query';
+import apiClient from '@/client/apiClient';
+import { useSession } from 'next-auth/react';
 
 interface EmployeesTableProps {
   employees: Employee[];
@@ -29,8 +32,24 @@ export function EmployeesTable({ employees }: EmployeesTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
+  const { data: session } = useSession();
+
+  const { data, isLoading, isError } = useQuery({
+    queryFn: async () => {
+      const { data } = await apiClient.GET('/user/', {
+        headers: {
+          'Authorization': 'Bearer ' + session?.accessToken,
+        }
+      });
+      return data;
+    },
+    queryKey: ["employees"],
+  });
+
+  console.log(data);
+
   const table = useReactTable({
-    data: employees,
+    data: data?.users ?? [],
     columns,
     state: {
       sorting,
@@ -50,9 +69,9 @@ export function EmployeesTable({ employees }: EmployeesTableProps) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     globalFilterFn: (row, columnIds, filterValue) => {
-      return row.original.name.toLowerCase().includes(filterValue) ||
-        row.original.jobTitle.toLowerCase().includes(filterValue) ||
-        row.original.phoneNumber.includes(filterValue);
+      return row.original.name.toLowerCase().includes(filterValue)
+        // row.original?.jobTitle?.toLowerCase().includes(filterValue) ||
+        // row.original?.phoneNumber?.includes(filterValue);
     }
   });
 

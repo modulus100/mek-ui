@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+// eslint-disable-next-line import/no-unresolved
 import { GeistSans } from 'geist/font/sans';
 
 import './globals.css';
@@ -7,6 +8,8 @@ import React from 'react';
 import { auth } from '../../auth';
 import Providers from '@/providers/providers';
 import NextTopLoader from 'nextjs-toploader';
+import { getLocale, getMessages } from 'next-intl/server';
+
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -43,15 +46,20 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  const locale = await getLocale();
+
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={GeistSans.className}>
         <NextTopLoader
           color="#0FA9C4"
           showSpinner={false}
         />
-        <Providers session={session}>{children}</Providers>
+        <Providers locale={locale} session={session} messages={messages}>{children}</Providers>
       </body>
     </html>
   );
